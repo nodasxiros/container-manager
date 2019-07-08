@@ -1,9 +1,11 @@
 const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
+var bodyParser = require('body-parser')
 const containers = require('./routes/containers')
-const containerController = require('./controllers/containerController')
 
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
 // Routes
 app.get('/', (req, res) => {
   res.send('Home Page')
