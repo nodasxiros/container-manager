@@ -8,7 +8,7 @@ router.get('/create', containerController.create)
 
 router.get('/:id', containerController.show)
 
-// router.get('start')
+router.get('/:id/start', containerController.start)
 
 router.get('/:id/stop', containerController.stop)
 
