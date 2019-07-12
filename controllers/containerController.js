@@ -4,18 +4,12 @@ const Docker = require('dockerode')
 let docker = new Docker({ socketPath: '/var/run/docker.sock' })
 
 exports.index = async (req, res) => {
-<<<<<<< HEAD
-  const containers = await docker.listContainers({ all: true })
-
-  res.send(JSON.stringify(containers))
-=======
   try {
     const containers = await docker.listContainers()
     res.send(JSON.stringify(containers))
   } catch (error) {
     res.send(error)
   }
->>>>>>> master
 }
 
 exports.show = async (req, res) => {
