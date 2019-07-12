@@ -12,4 +12,6 @@ router.get('/:id/start', containerController.start)
 
 router.get('/:id/stop', containerController.stop)
 
+router.get('/:id/delete', containerController.delete)
+
 module.exports = router
