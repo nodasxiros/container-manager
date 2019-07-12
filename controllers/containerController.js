@@ -4,11 +4,12 @@ const Docker = require('dockerode')
 let docker = new Docker({ socketPath: '/var/run/docker.sock' })
 
 exports.index = async (req, res) => {
-  const containers = await docker.listContainers()
-    .catch(er => {
-      res.send(er)
-    })
-  res.send(JSON.stringify(containers))
+  try {
+    const containers = await docker.listContainers()
+    res.send(JSON.stringify(containers))
+  } catch (error) {
+    res.send(error)
+  }
 }
 
 exports.show = async (req, res) => {
@@ -38,19 +39,25 @@ exports.stop = async (req, res) => {
 }
 
 exports.create = async (req, res) => {
-  docker.createContainer({
-    Image: 'redis',
-    AttachStdin: false,
-    AttachStdout: true,
-    AttachStderr: true,
-    Tty: true,
-    Cmd: ['/bin/bash', '-c', 'tail -f /var/log/dmesg'],
-    OpenStdin: false,
-    StdinOnce: false
-  })
-    .then(container => {
-      container.start()
-      res.send(`Container ${container.id} has started`)
+  try {
+    await docker.pull('redis:latest')
+    docker.run('redis', ['-d'], undefined, {
+      'name': 'Redis-5',
+      'Labels': {
+        'environment': 'blueWhale'
+      },
+      'HostConfig': {
+        'PortBindings': {
+          '6379/tcp': [
+            {
+              'HostPort': '0'
+            }
+          ]
+        }
+      }
     })
-    .catch(err => console.log(err))
+    res.send('Container Started')
+  } catch (error) {
+    res.send(error)
+  }
 }
