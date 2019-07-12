@@ -61,3 +61,12 @@ exports.create = async (req, res) => {
     res.send(error)
   }
 }
+
+exports.delete = async (req, res) => {
+  const container = await docker.getContainer(req.params.id)
+  container.inspect((err, data) => {
+    if (err) return res.send({ error: err })
+    container.remove()
+    return res.send({ status: 200, message: `Container ${container.id} has been removed` })
+  })
+}
