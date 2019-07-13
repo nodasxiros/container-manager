@@ -6,7 +6,13 @@ let docker = new Docker({ socketPath: '/var/run/docker.sock' })
 exports.index = async (req, res) => {
   try {
     const containers = await docker.listContainers()
-    res.send(JSON.stringify(containers))
+    const ContainersReduced = containers.map(x => {
+      return {
+        'id': x.Id,
+        'names': x.Names
+      }
+    })
+    res.send(JSON.stringify(ContainersReduced))
   } catch (error) {
     res.send(error)
   }
@@ -22,41 +28,31 @@ exports.show = async (req, res) => {
 
 exports.start = async (req, res) => {
   const container = await docker.getContainer(req.params.id)
-  container.inspect((err, data) => {
-    if (err) return res.send({ error: err })
-    container.start()
-    return res.send({ status: 200, message: `Container ${container.id} has started` })
-  })
+  container
+    .start()
+    .then(() => res.send(`Container ${req.params.id} started`))
+    .catch(err => res.send(err))
 }
 
 exports.stop = async (req, res) => {
   const container = await docker.getContainer(req.params.id)
-  container.inspect((err, data) => {
-    if (err) return res.send({ error: err })
-    container.stop()
-    return res.send({ status: 200, message: `Container ${container.id} has stopped` })
-  })
+  container
+    .stop()
+    .then(() => res.send(`Container ${req.params.id} stopped`))
+    .catch(error => res.send(error))
 }
 
 exports.create = async (req, res) => {
   try {
     await docker.pull('redis:latest')
-    docker.run('redis', ['-d'], undefined, {
-      'name': 'Redis-5',
-      'Labels': {
-        'environment': 'blueWhale'
-      },
-      'HostConfig': {
-        'PortBindings': {
-          '6379/tcp': [
-            {
-              'HostPort': '0'
-            }
-          ]
-        }
-      }
+    docker.createContainer({
+      Image: 'redis',
+      name: `${Math.random().toString(36).substr(2, 9)}`
     })
-    res.send('Container Started')
+      .then(() => {
+        res.send('Container Created')
+      })
+      .catch(err => res.send(err))
   } catch (error) {
     res.send(error)
   }
@@ -64,9 +60,8 @@ exports.create = async (req, res) => {
 
 exports.delete = async (req, res) => {
   const container = await docker.getContainer(req.params.id)
-  container.inspect((err, data) => {
-    if (err) return res.send({ error: err })
-    container.remove()
-    return res.send({ status: 200, message: `Container ${container.id} has been removed` })
-  })
+  container
+    .remove()
+    .then(() => res.send(`Container ${req.params.id} has been removed`))
+    .catch(err => res.send(err))
 }
