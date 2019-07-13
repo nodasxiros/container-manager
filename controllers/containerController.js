@@ -65,3 +65,19 @@ exports.delete = async (req, res) => {
     .then(() => res.send(`Container ${req.params.id} has been removed`))
     .catch(err => res.send(err))
 }
+
+exports.logs = async (req, res) => {
+  const container = await docker.getContainer(req.params.id)
+  container
+    .logs({ stdout: true })
+    .then(l => res.send(JSON.stringify(l)))
+    .catch(err => res.send(err))
+}
+
+exports.stats = async (req, res) => {
+  const container = await docker.getContainer(req.params.id)
+  container
+    .stats()
+    .then(stats => res.send(stats))
+    .catch(err => res.send(err))
+}
