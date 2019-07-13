@@ -1,4 +1,15 @@
 .history
 .vscode
-node_modules
-package-lock.json
+
+# Api - express
+/api/node_modules
+/api/package-lock.json
+
+/front/node_modules
+/front/package-lock.json
+
+# nuxt.js build output
+/front/.nuxt
+
+# Nuxt generate
+/front/dist
