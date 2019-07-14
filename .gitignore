@@ -13,3 +13,7 @@
 
 # Nuxt generate
 /front/dist
+
+/front/.editorconfig
+/front/.eslintrc.js
+/front/.prettierrc
