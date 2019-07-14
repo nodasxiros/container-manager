@@ -7,13 +7,8 @@ let docker = new Docker({ socketPath: '/var/run/docker.sock' })
 exports.index = async (req, res) => {
   try {
     const containers = await docker.listContainers()
-    const ContainersReduced = containers.map(x => {
-      return {
-        'id': x.Id,
-        'names': x.Names
-      }
-    })
-    res.send(JSON.stringify(ContainersReduced))
+    
+    res.send(JSON.stringify(containers))
   } catch (error) {
     res.send(error)
   }

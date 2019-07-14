@@ -27,6 +27,9 @@ const containersObj = {
     })
     return axios.get(`${apiUrl}/containers/${id}`)
   },
+  stop: function () {
+    
+  }
 
 }
 
