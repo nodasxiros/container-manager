@@ -1,4 +1,5 @@
 'use strict'
+const fs = require('fs')
 const Docker = require('dockerode')
 
 let docker = new Docker({ socketPath: '/var/run/docker.sock' })
@@ -69,7 +70,7 @@ exports.delete = async (req, res) => {
 exports.logs = async (req, res) => {
   const container = await docker.getContainer(req.params.id)
   container
-    .logs({ stdout: true })
+    .logs({ stderr: true, stdout: true })
     .then(l => res.send(JSON.stringify(l)))
     .catch(err => res.send(err))
 }
@@ -77,7 +78,7 @@ exports.logs = async (req, res) => {
 exports.stats = async (req, res) => {
   const container = await docker.getContainer(req.params.id)
   container
-    .stats()
+    .stats({ stream: false })
     .then(stats => res.send(stats))
     .catch(err => res.send(err))
 }
