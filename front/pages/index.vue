@@ -5,13 +5,14 @@
     </v-flex>
     <v-flex xs3 sm3 md3 v-for="item in runningContainers" :key="item.Id">
       <v-card>
-        <v-card-title class="headline">{{ item.names[0].split('/')[1] }}</v-card-title>
+        <v-card-title class="headline">{{ item.Names[0].split('/')[1] }}</v-card-title>
         <v-card-text>
-          <p>Container buttons</p>
+          <small>Image: {{ item.Image }}</small>
+          <p>{{ new Date(item.Created)}}</p>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" flat>Stop</v-btn>
+          <v-btn color="primary" nuxt :to="`/${item.Id}`" flat>Details</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -39,7 +40,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.runningContainers)
+    console.log(this.runningContainers[0].Created)
   }
 }
 </script>
