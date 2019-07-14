@@ -1,5 +1,13 @@
 <template>
-  <h3>{{ container.Name.split('/')[1] }}</h3>
+  <div>
+    <h3>{{ container.Name.split('/')[1] }}</h3>
+    <ul>
+      <li
+        v-for="(key, index) in Object.keys(container)"
+        :key="index"
+      >{{ key }}: {{ container[`${key}`] }}</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -15,7 +23,7 @@ export default {
     return {}
   },
   mounted() {
-    console.log(this.container)
+    // console.log(this.container)
   }
 }
 </script>
