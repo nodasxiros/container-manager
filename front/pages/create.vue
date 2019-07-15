@@ -9,8 +9,10 @@ export default {
     async create() {
       this.$nuxt.$loading.start()
       const created = await containersObj.create()
-      this.$nuxt.$loading.finish()
-      this.$router.push({ path: '/', query: { t: new Date().getTime() } })
+      setTimeout(() => {
+        this.$nuxt.$loading.finish()
+        this.$router.push({ path: '/', query: { t: new Date().getTime() } })
+      }, 4000)
     }
   }
 }

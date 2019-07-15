@@ -29,6 +29,7 @@ export default {
   head: {
     title: 'Container Manager'
   },
+  watchQuery: ['t'],
   components: {
     Logo,
     VuetifyLogo
