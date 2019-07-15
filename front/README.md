@@ -1,22 +1,20 @@
-# front
+# Download
+Clone repository and make sure you're using node.js version 8 and above
 
-> My supreme Nuxt.js project
-
-## Build Setup
-
-``` bash
+#api
+> Navigate to api direcotry
 # install dependencies
-$ npm run install
+npm install
+# run 
+npm start
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+# front
+> Navigate to front direcotry
+# install dependencies
+npm install
+# run in development
+npm run dev
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+#Links
+> API: http://localhost:3035
+> Front: http://localhost:3000
