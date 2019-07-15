@@ -3,8 +3,6 @@ const qs = require('qs')
 const settings = require('~/modules/settings.js')
 const { apiUrl } = settings
 
-var JSON = require('babel-runtime/core-js/json/stringify')
-
 axios.create({
   crossorigin: true,
   baseURL: apiUrl,
@@ -22,15 +20,31 @@ const containersObj = {
     }
   },
   get: function (id) {
-    if (typeof id == 'undefined') return axios.get(`${apiUrl}/containers`, {
-      crossdomain: true
-    })
+    if (typeof id === 'undefined') {
+      return axios.get(`${apiUrl}/containers`, {
+        crossdomain: true
+      })
+    }
     return axios.get(`${apiUrl}/containers/${id}`)
   },
-  stop: function () {
-    
+  create: function () {
+    return axios.get(`${apiUrl}/containers/create`)
+  },
+  stop: function (id) {
+    return axios.get(`${apiUrl}/containers/${id}/stop`)
+  },
+  start: function (id) {
+    return axios.get(`${apiUrl}/containers/${id}/start`)
+  },
+  logs: function (id) {
+    return axios.get(`${apiUrl}/containers/${id}/logs`)
+  },
+  stats: function (id) {
+    return axios.get(`${apiUrl}/containers/${id}/stats`)
+  },
+  delete: function (id) {
+    return axios.get(`${apiUrl}/containers/${id}/delete`)
   }
-
 }
 
 module.exports = containersObj

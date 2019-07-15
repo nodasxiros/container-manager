@@ -65,8 +65,8 @@ export default {
         },
         {
           icon: 'bubble_chart',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'Create A Container',
+          to: '/create'
         }
       ],
       miniVariant: false,

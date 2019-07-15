@@ -1,7 +1,7 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <h3>Running containers</h3>
+      <h3 v-if="runningContainers.length">Running containers</h3>
     </v-flex>
     <v-flex xs3 sm3 md3 v-for="item in runningContainers" :key="item.Id">
       <v-card>
@@ -33,14 +33,15 @@ export default {
     Logo,
     VuetifyLogo
   },
-  async asyncData() {
-    const runningContainers = await containersObj.get()
-    return {
-      runningContainers: runningContainers.data
+  async asyncData({ error, query, params }) {
+    try {
+      const runningContainers = await containersObj.get()
+      return {
+        runningContainers: runningContainers.data
+      }
+    } catch (error) {
+      error({ statusCode: 404, message: error.message })
     }
-  },
-  mounted() {
-    console.log(this.runningContainers[0].Created)
   }
 }
 </script>

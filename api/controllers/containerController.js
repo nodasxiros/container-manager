@@ -6,8 +6,12 @@ let docker = new Docker({ socketPath: '/var/run/docker.sock' })
 
 exports.index = async (req, res) => {
   try {
-    const containers = await docker.listContainers()
-    
+    let query = {}
+    if (req.query.all) {
+      query.all = true
+    }
+    const containers = await docker.listContainers(query)
+
     res.send(JSON.stringify(containers))
   } catch (error) {
     res.send(error)
@@ -42,11 +46,12 @@ exports.create = async (req, res) => {
   try {
     await docker.pull('redis:latest')
     docker.createContainer({
-      Image: 'redis',
+      Image: 'redis:latest',
       name: `${Math.random().toString(36).substr(2, 9)}`
     })
-      .then(() => {
-        res.send('Container Created')
+      .then(container => {
+        container.start()
+        res.send({ message: 'Container Created', container: container })
       })
       .catch(err => res.send(err))
   } catch (error) {
